@@ -3,7 +3,7 @@
 
 #define IO_USERNAME "Olikat"
 #define FEED_NAME "Inside"
-#define IO_KEY "aio_tWpQ67MMuDIjF39wwQ8qJxbQ6Zs3"
+#define IO_KEY "cant put on github"
 #define WIFI_SSID "FBI Watch Van #6"
 #define WIFI_PASS "aaaaaaaa"
 
