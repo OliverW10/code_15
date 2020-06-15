@@ -60,11 +60,11 @@ function drawCurrent(amount, pos, size){
 }
 
 function update(){
-	var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-	var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	// var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	// var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
-	canvas.width = w;
-	canvas.height = h;
+	// canvas.width = w;
+	// canvas.height = h;
 
 	c.beginPath();
 	c.fillStyle = "rgb(0, 0, 0)";

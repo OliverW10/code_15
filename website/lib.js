@@ -5,10 +5,9 @@ has drawing functions for most shapes and input handing
 
 var canvas = document.getElementById("canvasTag");
 canvas.setAttribute('draggable', false);
-var entirePage = document.getElementById("wholePage");
-var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-h *= 0.95
-var scale = h/600
+// var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+// h *= 0.95
+// var scale = h/600
 var c = canvas.getContext("2d"); //c means context
 
 var mousePos={x:0,y:0};
