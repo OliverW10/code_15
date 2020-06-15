@@ -1,12 +1,100 @@
 <canvas width=800 height=600 id="canvasTag"></canvas>
-<!-- <script>
+<script>
 	var canvas = document.getElementById("canvasTag");
 	canvas.setAttribute('draggable', false);
 	var c = canvas.getContext("2d"); //c means context
 
-	c.beginPath();
-	c.fillStyle = "rgb(255, 0, 0)";
-	c.fillRect(0, 0, canvas.width, canvas.height);
-</script> -->
-<script src="https://raw.githubusercontent.com/OliverW10/code_15/master/website/lib.js"></script>
-<script src="https://raw.githubusercontent.com/OliverW10/code_15/master/website/script.js"></script>
+	function random(min, max, round = false){
+		if(round === false){
+			return Math.random()*(max-min)+min;
+		}else{
+			// return round(Math.random()*(max-min)+min);
+		}
+	}
+
+	function scaleNumber(n, x1, x2, z1, z2, clip = false){
+		var range1 = x2-x1;
+		var range2 = z2-z1;
+		var ratio = (n - x1) / range1
+	    var result = ratio * range2 + z1
+	    if(clip === true){
+	    	return clip(result, z1, z2);
+	    }else{
+	    	return result;
+	    }
+	}
+
+	var dataRange = [0, 25];
+	var username = "Olikat";
+	var feed_key = "Inside";
+	var io_key = "cant put on github";
+
+	function getData(){
+		// interface with the adafruit api
+		// var http = new XMLHttpRequest();
+		// http.open("GET", `https://io.adafruit.com/api/v2/${username}/feeds/${feed_key}/data?x-aio-key=${}`);
+		// http.send();
+		// http.onreadystatechange = function() {
+		//     if (this.readyState == 4 && this.status == 200) {
+		//        // Typical action to be performed when the document is ready:
+		//        console.log("got scores")
+		//        leaderboard = JSON.parse(http.responseText);
+		//        sortedLeaderboard = sortLeaderboard();
+		//     }
+		// };
+
+		var dummyData = [];
+		for(var i = 0; i < 100; i += 1){
+			dummyData.push(random(dataRange[0], dataRange[1]));
+		}
+		return dummyData;
+	}
+
+	function PersToPxls(pers){ // converts a rect from percent to pixel locations
+		return [pers[0] * canvas.width, pers[1] * canvas.height, pers[2] * canvas.width, pers[3] * canvas.height];
+	}
+
+	function drawLineGraph(data, rectPers){
+		var rect = PersToPxls(rectPers);
+
+		c.beginPath();
+		c.strokeStyle = "rgb(200, 200, 200)";
+		c.lineWidth = 2;
+		c.rect(rect[0], rect[1], rect[2], rect[3]);
+		c.stroke();
+
+		c.moveTo(rect[0], rect[1]+rect[3]);
+		for(var i = 0; i < data.length; i += 1){
+			c.lineTo(scaleNumber(i, 0, data.length, rect[0], rect[0]+rect[2]), scaleNumber(data[i], dataRange[0], dataRange[1], rect[1]+rect[3], rect[1]));
+		}
+		c.stroke();
+	}
+
+	function drawCurrent(amount, pos, size){
+		c.beginPath();
+		c.lineWidth = size*canvas.width*0.3;
+		c.strokeStyle = "rgba(200, 200, 200, 0.1)";
+		c.arc(pos[0] * canvas.width, pos[1] * canvas.height, size*canvas.width*0.5, Math.PI*0.5, Math.PI*2.5);
+		c.stroke();
+
+		c.beginPath();
+		c.strokeStyle = "#2a9fce";
+		c.lineWidth = size*canvas.width*0.3;
+		c.arc(pos[0] * canvas.width, pos[1] * canvas.height, size*canvas.width*0.5, Math.PI*0.5, Math.PI*2* (amount / dataRange[1]));
+		c.stroke();
+	}
+
+	function update(){
+		c.beginPath();
+		c.fillStyle = "#181818";
+		c.fillRect(0, 0, canvas.width, canvas.height);
+
+		var points = getData();
+		drawLineGraph(points, [0.1, 0.1, 0.3, 0.2]);
+		drawCurrent(points[0], [0.2, 0.5], 0.1);
+	}
+
+	setInterval(update, 1000/60)
+</script>
+<!-- <script src="https://raw.githubusercontent.com/OliverW10/code_15/master/website/lib.js"></script>
+<script src="https://raw.githubusercontent.com/OliverW10/code_15/master/website/script.js"></script> -->

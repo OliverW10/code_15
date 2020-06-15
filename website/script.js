@@ -2,7 +2,7 @@
 var dataRange = [0, 25];
 var username = "Olikat";
 var feed_key = "Inside";
-var io_key = "aio_rdQf15MbEQi8rI1OBhuJYLvm9tu0";
+var io_key = "cant put on github";
 
 function getData(){
 	// interface with the adafruit api
