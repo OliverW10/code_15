@@ -1,9 +1,23 @@
-// decided not to use singleton classes
 
-var dataRange = [0, 25]
+var dataRange = [0, 25];
+var username = "Olikat";
+var feed_key = "Inside";
+var io_key = "aio_rdQf15MbEQi8rI1OBhuJYLvm9tu0";
 
 function getData(){
 	// interface with the adafruit api
+	// var http = new XMLHttpRequest();
+	// http.open("GET", `https://io.adafruit.com/api/v2/${username}/feeds/${feed_key}/data?x-aio-key=${}`);
+	// http.send();
+	// http.onreadystatechange = function() {
+	//     if (this.readyState == 4 && this.status == 200) {
+	//        // Typical action to be performed when the document is ready:
+	//        console.log("got scores")
+	//        leaderboard = JSON.parse(http.responseText);
+	//        sortedLeaderboard = sortLeaderboard();
+	//     }
+	// };
+
 	var dummyData = [];
 	for(var i = 0; i < 100; i += 1){
 		dummyData.push(random(dataRange[0], dataRange[1]));
