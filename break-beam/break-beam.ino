@@ -3,7 +3,7 @@
 
 #define IO_USERNAME "Olikat"
 #define FEED_NAME "Inside"
-#define IO_KEY "cant put"
+#define IO_KEY "aio_atQn54E83eUbiIxyaFT6tm4Fda6p"
 #define WIFI_SSID "FBI Watch Van #6"
 #define WIFI_PASS "aaaaaaaa"
 
@@ -12,7 +12,7 @@
 AdafruitIO_WiFi  io(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS);
 AdafruitIO_Feed *output = io.feed(FEED_NAME);
 
-int sensPins[2] = {4, 0};
+int sensPins[2] = {16, 5};
 int sensVals[2] = {0, 0};
 
 int recordLength = 200;
@@ -27,8 +27,6 @@ int inside = 0;
 int maxTime = 1000; // the maximum time between the sensors being covered that will consider it an enternace
 
 unsigned long time1 = millis();
-int outputCounter = 0;
-int outputWaitTime = 50; // how long to wait between sending to adafruit in cyces
 
 int coveredTimes[2] = {maxTime, maxTime}; // loops since the sensor was covered
 
@@ -45,18 +43,21 @@ void setup() {
   Serial.println(io.statusText());
 }
 
+int sensor = 0;
+int i = 0;
+
 void loop() {
   // run the adafruit thing
   io.run();
 
-  for(int sensor = 0; sensor < 2; sensor += 1){
+  for(sensor = 0; sensor < 2; sensor ++){
     // Read the light value form the sensor
     sensVals[sensor] = analogRead(sensPins[sensor]);
 
     // Add up and average the last recordLength values
     // and moves the values backwards one
     total = 0;
-    for(int i = recordLength-2; i>=0; i--){
+    for(i = recordLength-2; i>=0; i--){
       dataLog[sensor][i+1] = dataLog[sensor][i];
       total += dataLog[sensor][i];
     }
@@ -70,7 +71,13 @@ void loop() {
     }
     coveredTimes[sensor] ++;
   }
-
+  
+  Serial.println(total);
+//  Serial.print(average[0]);
+//  Serial.print(" , ");
+//  Serial.print(average[1]);
+//  Serial.print("\n");
+  
   if(coveredTimes[0] < maxTime && coveredTimes[1] < maxTime){
     Serial.println("Passed");
      if(coveredTimes[0] < coveredTimes[1]){ // enterance
@@ -82,11 +89,11 @@ void loop() {
      }
   }
   
-  // send to adafruit every thousand milliseconds
+  // send to adafruit every two thousand milliseconds
   unsigned long time2 = millis();
-  if(abs(time1 - time2) > 1000){
+  if(abs(time1 - time2) > 2000){
     unsigned long time1 = millis();
-    Serial.println(inside);
+    // Serial.println(inside);
       output -> save(inside); 
   }
   
